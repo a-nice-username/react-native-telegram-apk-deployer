@@ -1,0 +1,35 @@
+{
+  "name": "react-native-telegram-apk-deployer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-android": "node record-start-time.js; npm run bundle-android; cd android; ./gradlew assemblerelease; cd ..; node record-end-time.js; npx ts-node apk-renamer.js; node open-file-location.js",
+    "build-android-without-open-file-location": "node record-start-time.js; npm run bundle-android; cd android; ./gradlew assemblerelease; cd ..; node record-end-time.js; npx ts-node apk-renamer.js",
+    "bundle-android": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "send-file-via-telegram-bot": "npx ts-node send-file-via-telegram-bot.js; node open-file-location.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-nice-username/react-native-telegram-apk-deployer.git"
+  },
+  "author": "a-nice-username",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/a-nice-username/react-native-telegram-apk-deployer/issues"
+  },
+  "homepage": "https://github.com/a-nice-username/react-native-telegram-apk-deployer#readme",
+  "dependencies": {
+    "axios": "0.21.1",
+    "commander": "7.2.0",
+    "form-data": "4.0.0",
+    "git-user-name": "2.0.0",
+    "inquirer": "8.0.0",
+    "prettysize": "2.0.0",
+    "wifi-name": "3.1.1"
+  },
+  "bin": {
+    "react-native-telegram-apk-deployer": "index.js"
+  }
+}
