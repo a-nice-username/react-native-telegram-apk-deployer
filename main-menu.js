@@ -56,6 +56,7 @@ function showMainMenu() {
                 const credential = `module.exports = ${JSON.stringify({
                     token: new_token,
                     chat_id: new_chat_id,
+                    additional_message: null,
                     filename: 'app-release.apk'
                 }, null, 2)}\n`
 

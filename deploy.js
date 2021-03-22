@@ -13,7 +13,7 @@ async function deploy() {
         return
     }
     
-    const { token, chat_id, filename } = require(`${process.cwd()}/telegram-credential`)
+    const { token, chat_id, filename, additional_message } = require(`${process.cwd()}/telegram-credential`)
     
     if (token == undefined || token == '' || chat_id == undefined || chat_id == '') {
         console.log('Telegram credential is invalid, please configure using npm run deployer')
@@ -73,11 +73,17 @@ async function deploy() {
     
     uploadProcess.on('exit', () => {
         const time = ((new Date()).getTime() - startTime.getTime()) / 1000
+
+        chatCaption += `\nUpload time: ${time.toFixed(2)}s ${wifi_name != undefined ? `(WiFi: <b>${wifi_name}</b>)` : ''}\n`
+
+        if (typeof additional_message == 'string') {
+            chatCaption += additional_message
+        }
     
         axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
             chat_id,
             parse_mode: 'HTML',
-            text: `${chatCaption}\nUpload time: ${time.toFixed(2)}s ${wifi_name != undefined ? `(WiFi: <b>${wifi_name}</b>)` : ''}`
+            text: chatCaption
         })
         .then(function () {
             console.log(`Upload file done in ${time.toFixed(2)}s`)
